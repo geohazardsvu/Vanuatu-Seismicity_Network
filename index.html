@@ -10,7 +10,7 @@
         <link rel="stylesheet" href="css/qgis2web.css"><link rel="stylesheet" href="css/fontawesome-all.min.css">
         <style>
         #map {
-            width: 1026px;
+            width: 1225px;
             height: 813px;
         }
         </style>
@@ -29,13 +29,14 @@
         <script src="js/rbush.min.js"></script>
         <script src="js/labelgun.min.js"></script>
         <script src="js/labels.js"></script>
-        <script src="data/VolcanoStations_2.js"></script>
-        <script src="data/EarthquakeStations_3.js"></script>
-        <script src="data/Webcam_2024_4.js"></script>
+        <script src="data/VanuatuIslands_2.js"></script>
+        <script src="data/VolcanoStations_3.js"></script>
+        <script src="data/EarthquakeStations_4.js"></script>
+        <script src="data/Webcamera_5.js"></script>
         <script>
         var map = L.map('map', {
             zoomControl:true, maxZoom:28, minZoom:1
-        }).fitBounds([[-20.570204263702852,164.96127779145255],[-13.867711395381537,173.4241047916511]]);
+        }).fitBounds([[-20.33450376418765,162.26465717593993],[-12.8531415757788,173.54666205439128]]);
         var hash = new L.Hash(map);
         map.attributionControl.setPrefix('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>');
         var autolinker = new Autolinker({truncate: {length: 30, location: 'smart'}});
@@ -90,11 +91,55 @@
         });
         layer_GoogleSatellite_1;
         map.addLayer(layer_GoogleSatellite_1);
-        function pop_VolcanoStations_2(feature, layer) {
+        function pop_VanuatuIslands_2(feature, layer) {
             var popupContent = '<table>\
                     <tr>\
-                        <th scope="row">Name</th>\
-                        <td>' + (feature.properties['Name'] !== null ? autolinker.link(feature.properties['Name'].toLocaleString()) : '') + '</td>\
+                        <td colspan="2">' + (feature.properties['iid'] !== null ? autolinker.link(feature.properties['iid'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['iname'] !== null ? autolinker.link(feature.properties['iname'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+            var popup = layer.getPopup();
+            var content = popup.getContent();
+            var updatedContent = removeEmptyRowsFromPopupContent(content, feature);
+            popup.setContent(updatedContent);
+        }
+
+        function style_VanuatuIslands_2_0() {
+            return {
+                pane: 'pane_VanuatuIslands_2',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(133,182,111,1.0)',
+                interactive: true,
+            }
+        }
+        map.createPane('pane_VanuatuIslands_2');
+        map.getPane('pane_VanuatuIslands_2').style.zIndex = 402;
+        map.getPane('pane_VanuatuIslands_2').style['mix-blend-mode'] = 'normal';
+        var layer_VanuatuIslands_2 = new L.geoJson(json_VanuatuIslands_2, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_VanuatuIslands_2',
+            layerName: 'layer_VanuatuIslands_2',
+            pane: 'pane_VanuatuIslands_2',
+            onEachFeature: pop_VanuatuIslands_2,
+            style: style_VanuatuIslands_2_0,
+        });
+        bounds_group.addLayer(layer_VanuatuIslands_2);
+        map.addLayer(layer_VanuatuIslands_2);
+        function pop_VolcanoStations_3(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2"><strong>Name</strong><br />' + (feature.properties['Name'] !== null ? autolinker.link(feature.properties['Name'].toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
                         <th scope="row">Location</th>\
@@ -120,11 +165,10 @@
             popup.setContent(updatedContent);
         }
 
-        function style_VolcanoStations_2_0() {
+        function style_VolcanoStations_3_0() {
             return {
-                pane: 'pane_VolcanoStations_2',
-                shape: 'triangle',
-                radius: 8.0,
+                pane: 'pane_VolcanoStations_3',
+                radius: 12.0,
                 stroke: false,
                 fill: true,
                 fillOpacity: 1,
@@ -132,31 +176,30 @@
                 interactive: true,
             }
         }
-        map.createPane('pane_VolcanoStations_2');
-        map.getPane('pane_VolcanoStations_2').style.zIndex = 402;
-        map.getPane('pane_VolcanoStations_2').style['mix-blend-mode'] = 'normal';
-        var layer_VolcanoStations_2 = new L.geoJson(json_VolcanoStations_2, {
+        map.createPane('pane_VolcanoStations_3');
+        map.getPane('pane_VolcanoStations_3').style.zIndex = 403;
+        map.getPane('pane_VolcanoStations_3').style['mix-blend-mode'] = 'normal';
+        var layer_VolcanoStations_3 = new L.geoJson(json_VolcanoStations_3, {
             attribution: '',
             interactive: true,
-            dataVar: 'json_VolcanoStations_2',
-            layerName: 'layer_VolcanoStations_2',
-            pane: 'pane_VolcanoStations_2',
-            onEachFeature: pop_VolcanoStations_2,
+            dataVar: 'json_VolcanoStations_3',
+            layerName: 'layer_VolcanoStations_3',
+            pane: 'pane_VolcanoStations_3',
+            onEachFeature: pop_VolcanoStations_3,
             pointToLayer: function (feature, latlng) {
                 var context = {
                     feature: feature,
                     variables: {}
                 };
-                return L.shapeMarker(latlng, style_VolcanoStations_2_0(feature));
+                return L.shapeMarker(latlng, style_VolcanoStations_3_0(feature));
             },
         });
-        bounds_group.addLayer(layer_VolcanoStations_2);
-        map.addLayer(layer_VolcanoStations_2);
-        function pop_EarthquakeStations_3(feature, layer) {
+        bounds_group.addLayer(layer_VolcanoStations_3);
+        map.addLayer(layer_VolcanoStations_3);
+        function pop_EarthquakeStations_4(feature, layer) {
             var popupContent = '<table>\
                     <tr>\
-                        <th scope="row">Name</th>\
-                        <td>' + (feature.properties['Name'] !== null ? autolinker.link(feature.properties['Name'].toLocaleString()) : '') + '</td>\
+                        <td colspan="2"><strong>Name</strong><br />' + (feature.properties['Name'] !== null ? autolinker.link(feature.properties['Name'].toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
                         <th scope="row">Location</th>\
@@ -182,11 +225,10 @@
             popup.setContent(updatedContent);
         }
 
-        function style_EarthquakeStations_3_0() {
+        function style_EarthquakeStations_4_0() {
             return {
-                pane: 'pane_EarthquakeStations_3',
-                shape: 'triangle',
-                radius: 8.0,
+                pane: 'pane_EarthquakeStations_4',
+                radius: 12.0,
                 stroke: false,
                 fill: true,
                 fillOpacity: 1,
@@ -194,31 +236,30 @@
                 interactive: true,
             }
         }
-        map.createPane('pane_EarthquakeStations_3');
-        map.getPane('pane_EarthquakeStations_3').style.zIndex = 403;
-        map.getPane('pane_EarthquakeStations_3').style['mix-blend-mode'] = 'normal';
-        var layer_EarthquakeStations_3 = new L.geoJson(json_EarthquakeStations_3, {
+        map.createPane('pane_EarthquakeStations_4');
+        map.getPane('pane_EarthquakeStations_4').style.zIndex = 404;
+        map.getPane('pane_EarthquakeStations_4').style['mix-blend-mode'] = 'normal';
+        var layer_EarthquakeStations_4 = new L.geoJson(json_EarthquakeStations_4, {
             attribution: '',
             interactive: true,
-            dataVar: 'json_EarthquakeStations_3',
-            layerName: 'layer_EarthquakeStations_3',
-            pane: 'pane_EarthquakeStations_3',
-            onEachFeature: pop_EarthquakeStations_3,
+            dataVar: 'json_EarthquakeStations_4',
+            layerName: 'layer_EarthquakeStations_4',
+            pane: 'pane_EarthquakeStations_4',
+            onEachFeature: pop_EarthquakeStations_4,
             pointToLayer: function (feature, latlng) {
                 var context = {
                     feature: feature,
                     variables: {}
                 };
-                return L.shapeMarker(latlng, style_EarthquakeStations_3_0(feature));
+                return L.shapeMarker(latlng, style_EarthquakeStations_4_0(feature));
             },
         });
-        bounds_group.addLayer(layer_EarthquakeStations_3);
-        map.addLayer(layer_EarthquakeStations_3);
-        function pop_Webcam_2024_4(feature, layer) {
+        bounds_group.addLayer(layer_EarthquakeStations_4);
+        map.addLayer(layer_EarthquakeStations_4);
+        function pop_Webcamera_5(feature, layer) {
             var popupContent = '<table>\
                     <tr>\
-                        <th scope="row">Name</th>\
-                        <td>' + (feature.properties['Name'] !== null ? autolinker.link(feature.properties['Name'].toLocaleString()) : '') + '</td>\
+                        <td colspan="2"><strong>Name</strong><br />' + (feature.properties['Name'] !== null ? autolinker.link(feature.properties['Name'].toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
                         <th scope="row">Location</th>\
@@ -244,40 +285,40 @@
             popup.setContent(updatedContent);
         }
 
-        function style_Webcam_2024_4_0() {
+        function style_Webcamera_5_0() {
             return {
-                pane: 'pane_Webcam_2024_4',
+                pane: 'pane_Webcamera_5',
         rotationAngle: 0.0,
         rotationOrigin: 'center center',
         icon: L.icon({
-            iconUrl: 'markers/Webcam_2024_4.svg',
-            iconSize: [22.799999999999997, 22.799999999999997]
+            iconUrl: 'markers/Webcamera_5.svg',
+            iconSize: [19.0, 19.0]
         }),
                 interactive: true,
             }
         }
-        map.createPane('pane_Webcam_2024_4');
-        map.getPane('pane_Webcam_2024_4').style.zIndex = 404;
-        map.getPane('pane_Webcam_2024_4').style['mix-blend-mode'] = 'normal';
-        var layer_Webcam_2024_4 = new L.geoJson(json_Webcam_2024_4, {
+        map.createPane('pane_Webcamera_5');
+        map.getPane('pane_Webcamera_5').style.zIndex = 405;
+        map.getPane('pane_Webcamera_5').style['mix-blend-mode'] = 'normal';
+        var layer_Webcamera_5 = new L.geoJson(json_Webcamera_5, {
             attribution: '',
             interactive: true,
-            dataVar: 'json_Webcam_2024_4',
-            layerName: 'layer_Webcam_2024_4',
-            pane: 'pane_Webcam_2024_4',
-            onEachFeature: pop_Webcam_2024_4,
+            dataVar: 'json_Webcamera_5',
+            layerName: 'layer_Webcamera_5',
+            pane: 'pane_Webcamera_5',
+            onEachFeature: pop_Webcamera_5,
             pointToLayer: function (feature, latlng) {
                 var context = {
                     feature: feature,
                     variables: {}
                 };
-                return L.marker(latlng, style_Webcam_2024_4_0(feature));
+                return L.marker(latlng, style_Webcamera_5_0(feature));
             },
         });
-        bounds_group.addLayer(layer_Webcam_2024_4);
-        map.addLayer(layer_Webcam_2024_4);
+        bounds_group.addLayer(layer_Webcamera_5);
+        map.addLayer(layer_Webcamera_5);
         var baseMaps = {};
-        L.control.layers(baseMaps,{'<img src="legend/Webcam_2024_4.png" /> Webcam_2024': layer_Webcam_2024_4,'<img src="legend/EarthquakeStations_3.png" /> Earthquake Stations': layer_EarthquakeStations_3,'<img src="legend/VolcanoStations_2.png" /> Volcano Stations': layer_VolcanoStations_2,"Google Satellite": layer_GoogleSatellite_1,"Google Terrain Hybrid": layer_GoogleTerrainHybrid_0,},{collapsed:false}).addTo(map);
+        L.control.layers(baseMaps,{'<img src="legend/Webcamera_5.png" /> Webcamera': layer_Webcamera_5,'<img src="legend/EarthquakeStations_4.png" /> Earthquake Stations': layer_EarthquakeStations_4,'<img src="legend/VolcanoStations_3.png" /> Volcano Stations': layer_VolcanoStations_3,'<img src="legend/VanuatuIslands_2.png" /> Vanuatu Islands': layer_VanuatuIslands_2,"Google Satellite": layer_GoogleSatellite_1,"Google Terrain Hybrid": layer_GoogleTerrainHybrid_0,},{collapsed:false}).addTo(map);
         setBounds();
         </script>
     </body>
