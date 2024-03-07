@@ -10,17 +10,13 @@
         <link rel="stylesheet" href="css/qgis2web.css"><link rel="stylesheet" href="css/fontawesome-all.min.css">
         <style>
         #map {
-            width: 1225px;
+            width: 1290px;
             height: 813px;
         }
         </style>
         <title></title>
-            </head>
+    </head>
     <body>
-  <h1>Vanuatu Geohazards Monitoring Network</h1>
-    <div id="map">
-    </div>
-
         <div id="map">
         </div>
         <script src="js/qgis2web_expressions.js"></script>
@@ -36,11 +32,13 @@
         <script src="data/VanuatuIslands_2.js"></script>
         <script src="data/VolcanoStations_3.js"></script>
         <script src="data/EarthquakeStations_4.js"></script>
-        <script src="data/Webcamera_5.js"></script>
+        <script src="data/Volcano_5.js"></script>
+        <script src="data/Webcamera_6.js"></script>
+        <script src="data/SeismicIntensityMeter_7.js"></script>
         <script>
         var map = L.map('map', {
             zoomControl:true, maxZoom:28, minZoom:1
-        }).fitBounds([[-20.33450376418765,162.26465717593993],[-12.8531415757788,173.54666205439128]]);
+        }).fitBounds([[-20.719528509955452,160.95047266598834],[-12.63629073348831,173.78796989914457]]);
         var hash = new L.Hash(map);
         map.attributionControl.setPrefix('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>');
         var autolinker = new Autolinker({truncate: {length: 30, location: 'smart'}});
@@ -260,7 +258,61 @@
         });
         bounds_group.addLayer(layer_EarthquakeStations_4);
         map.addLayer(layer_EarthquakeStations_4);
-        function pop_Webcamera_5(feature, layer) {
+        function pop_Volcano_5(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Name'] !== null ? autolinker.link(feature.properties['Name'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Location'] !== null ? autolinker.link(feature.properties['Location'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Lat'] !== null ? autolinker.link(feature.properties['Lat'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Long'] !== null ? autolinker.link(feature.properties['Long'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+            var popup = layer.getPopup();
+            var content = popup.getContent();
+            var updatedContent = removeEmptyRowsFromPopupContent(content, feature);
+            popup.setContent(updatedContent);
+        }
+
+        function style_Volcano_5_0() {
+            return {
+                pane: 'pane_Volcano_5',
+        rotationAngle: 0.0,
+        rotationOrigin: 'center center',
+        icon: L.icon({
+            iconUrl: 'markers/Volcano_5.svg',
+            iconSize: [38.76, 38.76]
+        }),
+                interactive: true,
+            }
+        }
+        map.createPane('pane_Volcano_5');
+        map.getPane('pane_Volcano_5').style.zIndex = 405;
+        map.getPane('pane_Volcano_5').style['mix-blend-mode'] = 'normal';
+        var layer_Volcano_5 = new L.geoJson(json_Volcano_5, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_Volcano_5',
+            layerName: 'layer_Volcano_5',
+            pane: 'pane_Volcano_5',
+            onEachFeature: pop_Volcano_5,
+            pointToLayer: function (feature, latlng) {
+                var context = {
+                    feature: feature,
+                    variables: {}
+                };
+                return L.marker(latlng, style_Volcano_5_0(feature));
+            },
+        });
+        bounds_group.addLayer(layer_Volcano_5);
+        map.addLayer(layer_Volcano_5);
+        function pop_Webcamera_6(feature, layer) {
             var popupContent = '<table>\
                     <tr>\
                         <td colspan="2"><strong>Name</strong><br />' + (feature.properties['Name'] !== null ? autolinker.link(feature.properties['Name'].toLocaleString()) : '') + '</td>\
@@ -275,7 +327,7 @@
                     </tr>\
                     <tr>\
                         <th scope="row">Lat</th>\
-                        <td>' + (feature.properties['Lat'] !== null ? autolinker.link(feature.properties['Lat'].toLocaleString()) : '') + '</td>\
+                        <td class="visible-with-data" id="Lat">' + (feature.properties['Lat'] !== null ? autolinker.link(feature.properties['Lat'].toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
                         <th scope="row">Long</th>\
@@ -289,40 +341,126 @@
             popup.setContent(updatedContent);
         }
 
-        function style_Webcamera_5_0() {
+        function style_Webcamera_6_0() {
             return {
-                pane: 'pane_Webcamera_5',
+                pane: 'pane_Webcamera_6',
         rotationAngle: 0.0,
         rotationOrigin: 'center center',
         icon: L.icon({
-            iconUrl: 'markers/Webcamera_5.svg',
+            iconUrl: 'markers/Webcamera_6.svg',
             iconSize: [19.0, 19.0]
         }),
                 interactive: true,
             }
         }
-        map.createPane('pane_Webcamera_5');
-        map.getPane('pane_Webcamera_5').style.zIndex = 405;
-        map.getPane('pane_Webcamera_5').style['mix-blend-mode'] = 'normal';
-        var layer_Webcamera_5 = new L.geoJson(json_Webcamera_5, {
+        map.createPane('pane_Webcamera_6');
+        map.getPane('pane_Webcamera_6').style.zIndex = 406;
+        map.getPane('pane_Webcamera_6').style['mix-blend-mode'] = 'normal';
+        var layer_Webcamera_6 = new L.geoJson(json_Webcamera_6, {
             attribution: '',
             interactive: true,
-            dataVar: 'json_Webcamera_5',
-            layerName: 'layer_Webcamera_5',
-            pane: 'pane_Webcamera_5',
-            onEachFeature: pop_Webcamera_5,
+            dataVar: 'json_Webcamera_6',
+            layerName: 'layer_Webcamera_6',
+            pane: 'pane_Webcamera_6',
+            onEachFeature: pop_Webcamera_6,
             pointToLayer: function (feature, latlng) {
                 var context = {
                     feature: feature,
                     variables: {}
                 };
-                return L.marker(latlng, style_Webcamera_5_0(feature));
+                return L.marker(latlng, style_Webcamera_6_0(feature));
             },
         });
-        bounds_group.addLayer(layer_Webcamera_5);
-        map.addLayer(layer_Webcamera_5);
+        bounds_group.addLayer(layer_Webcamera_6);
+        map.addLayer(layer_Webcamera_6);
+        function pop_SeismicIntensityMeter_7(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">Name</th>\
+                        <td>' + (feature.properties['Name'] !== null ? autolinker.link(feature.properties['Name'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">descriptio</th>\
+                        <td class="visible-with-data" id="descriptio">' + (feature.properties['descriptio'] !== null ? autolinker.link(feature.properties['descriptio'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">timestamp</th>\
+                        <td>' + (feature.properties['timestamp'] !== null ? autolinker.link(feature.properties['timestamp'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">begin</th>\
+                        <td>' + (feature.properties['begin'] !== null ? autolinker.link(feature.properties['begin'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">end</th>\
+                        <td>' + (feature.properties['end'] !== null ? autolinker.link(feature.properties['end'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">altitudeMo</th>\
+                        <td>' + (feature.properties['altitudeMo'] !== null ? autolinker.link(feature.properties['altitudeMo'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">tessellate</th>\
+                        <td>' + (feature.properties['tessellate'] !== null ? autolinker.link(feature.properties['tessellate'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">extrude</th>\
+                        <td>' + (feature.properties['extrude'] !== null ? autolinker.link(feature.properties['extrude'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">visibility</th>\
+                        <td>' + (feature.properties['visibility'] !== null ? autolinker.link(feature.properties['visibility'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">drawOrder</th>\
+                        <td>' + (feature.properties['drawOrder'] !== null ? autolinker.link(feature.properties['drawOrder'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">icon</th>\
+                        <td>' + (feature.properties['icon'] !== null ? autolinker.link(feature.properties['icon'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+            var popup = layer.getPopup();
+            var content = popup.getContent();
+            var updatedContent = removeEmptyRowsFromPopupContent(content, feature);
+            popup.setContent(updatedContent);
+        }
+
+        function style_SeismicIntensityMeter_7_0() {
+            return {
+                pane: 'pane_SeismicIntensityMeter_7',
+        rotationAngle: 0.0,
+        rotationOrigin: 'center center',
+        icon: L.icon({
+            iconUrl: 'markers/SeismicIntensityMeter_7.svg',
+            iconSize: [28.120000000000005, 28.120000000000005]
+        }),
+                interactive: true,
+            }
+        }
+        map.createPane('pane_SeismicIntensityMeter_7');
+        map.getPane('pane_SeismicIntensityMeter_7').style.zIndex = 407;
+        map.getPane('pane_SeismicIntensityMeter_7').style['mix-blend-mode'] = 'normal';
+        var layer_SeismicIntensityMeter_7 = new L.geoJson(json_SeismicIntensityMeter_7, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_SeismicIntensityMeter_7',
+            layerName: 'layer_SeismicIntensityMeter_7',
+            pane: 'pane_SeismicIntensityMeter_7',
+            onEachFeature: pop_SeismicIntensityMeter_7,
+            pointToLayer: function (feature, latlng) {
+                var context = {
+                    feature: feature,
+                    variables: {}
+                };
+                return L.marker(latlng, style_SeismicIntensityMeter_7_0(feature));
+            },
+        });
+        bounds_group.addLayer(layer_SeismicIntensityMeter_7);
+        map.addLayer(layer_SeismicIntensityMeter_7);
         var baseMaps = {};
-        L.control.layers(baseMaps,{'<img src="legend/Webcamera_5.png" /> Webcamera': layer_Webcamera_5,'<img src="legend/EarthquakeStations_4.png" /> Earthquake Stations': layer_EarthquakeStations_4,'<img src="legend/VolcanoStations_3.png" /> Volcano Stations': layer_VolcanoStations_3,'<img src="legend/VanuatuIslands_2.png" /> Vanuatu Islands': layer_VanuatuIslands_2,"Google Satellite": layer_GoogleSatellite_1,"Google Terrain Hybrid": layer_GoogleTerrainHybrid_0,},{collapsed:false}).addTo(map);
+        L.control.layers(baseMaps,{'<img src="legend/SeismicIntensityMeter_7.png" /> Seismic Intensity Meter': layer_SeismicIntensityMeter_7,'<img src="legend/Webcamera_6.png" /> Webcamera': layer_Webcamera_6,'<img src="legend/Volcano_5.png" /> Volcano': layer_Volcano_5,'<img src="legend/EarthquakeStations_4.png" /> Earthquake Stations': layer_EarthquakeStations_4,'<img src="legend/VolcanoStations_3.png" /> Volcano Stations': layer_VolcanoStations_3,'<img src="legend/VanuatuIslands_2.png" /> Vanuatu Islands': layer_VanuatuIslands_2,"Google Satellite": layer_GoogleSatellite_1,"Google Terrain Hybrid": layer_GoogleTerrainHybrid_0,},{collapsed:false}).addTo(map);
         setBounds();
         </script>
     </body>
